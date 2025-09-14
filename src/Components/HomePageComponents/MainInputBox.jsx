@@ -31,7 +31,47 @@ const MainInputBox = () => {
                         <Flights/>
                     </TabPanel>
                     <TabPanel>
-                        <p>Cars</p>
+                        <TabPanel>
+  <Box overflowX="auto">
+    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <thead style={{ backgroundColor: "#f5f5f5" }}>
+        <tr>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Car Model</th>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Driver</th>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Toyota Camry</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Alex Johnson</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$15.20</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Honda Accord</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Maria Gonzalez</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$13.75</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Tesla Model 3</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>David Lee</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$18.40</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Chevrolet Malibu</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Sarah Miller</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$12.90</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>BMW 3 Series</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Omar Khan</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$20.50</td>
+        </tr>
+      </tbody>
+    </table>
+  </Box>
+</TabPanel>
+
                     </TabPanel>
                     <TabPanel>
                         <InputBox/>
