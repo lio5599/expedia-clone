@@ -77,7 +77,59 @@ const MainInputBox = () => {
                         <InputBox/>
                     </TabPanel>
                     <TabPanel>
-                        <p>Packages</p>
+                        <TabPanel>
+  <Box overflowX="auto">
+    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <thead style={{ backgroundColor: "#f5f5f5" }}>
+        <tr>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Package</th>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Hotel</th>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Inclusions</th>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Original Price</th>
+          <th style={{ textAlign: "left", padding: "8px", borderBottom: "1px solid #ddd" }}>Deal Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Romantic Getaway</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Hilton Garden Inn</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>2 nights stay + breakfast + spa session</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$550</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$399</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Family Fun Pack</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Marriott Downtown</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>3 nights stay + theme park tickets + breakfast</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$1,200</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$850</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Work & Relax</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Hyatt Regency</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>5 nights stay + Wi-Fi upgrade + free meeting room hours</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$950</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$699</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Beach Escape</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Holiday Inn Resort</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>4 nights stay + airport transfer + all meals</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$1,100</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$799</td>
+        </tr>
+        <tr>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Luxury Retreat</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>Ritz-Carlton</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>2 nights stay + private dinner + spa + limo pickup</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$1,800</td>
+          <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>$1,299</td>
+        </tr>
+      </tbody>
+    </table>
+  </Box>
+</TabPanel>
+
                     </TabPanel>
                 </TabPanels>
             </Tabs>
