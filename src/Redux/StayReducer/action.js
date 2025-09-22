@@ -58,7 +58,7 @@ export const addHotel = (payload) => (dispatch) => {
     });
 };
 
-// fetching hotels with sort/order/page parameters
+//fetching hotels with sort/order/page parameters
 export const fetchingHotels = (sort, order, page) => async (dispatch) => {
   console.log(order, sort,page);
   dispatch({ type: HOTEL_REQUEST });
@@ -71,12 +71,6 @@ export const fetchingHotels = (sort, order, page) => async (dispatch) => {
     console.log(err);
   }
 };
-
-
-
-
-
-//
 
 export const DeleteHotel = (deleteId) => async (dispatch) => {
   try {
