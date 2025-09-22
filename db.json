@@ -91,7 +91,34 @@
       "id": "9"
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "ea2f",
+      "title": "Birla Temple",
+      "price": "₹3,500",
+      "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/e4/ab/29/birla-temple.jpg?w=400&h=300&s=1",
+      "place": "kolkata"
+    },
+    {
+      "id": "14",
+      "image": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201306271508561947-bdd039ba1df811e8832b02755708f0b3.jpg?&output-quality=75&downsize=583:388&crop=583:388;86,0&output-format=webp",
+      "img1": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201306271508561947-bdd039ba1df811e8832b02755708f0b3.jpg?&output-quality=75&downsize=583:388&crop=583:388;86,0&output-format=webp",
+      "img2": "https://r1imghtlak.mmtcdn.com/a21d5d28733111e7a0c70a4cef95d023.jpg?&output-quality=75&downsize=583:388&output-format=webp",
+      "img3": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201306271508561947-2d985f7a1df911e8bf000224510f5e5b.jpg?&output-quality=75&downsize=583:388&crop=583:388;86,0&output-format=webp",
+      "img4": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201306271508561947-57becc301df911e8a77d0a9df65c8753.jpg?&output-quality=75&downsize=583:388&crop=583:388;86,0&output-format=webp",
+      "rating": "",
+      "ratingtext": "",
+      "ratingcomment": "",
+      "name": "The Signature Inn",
+      "place": "Near Bangalore Train Station",
+      "description": "",
+      "additional": "Free Cancellation",
+      "taxes": 166,
+      "price": 1025,
+      "additional2": "",
+      "additional1": ""
+    }
+  ],
   "hotelcart": [],
   "flightcart": [],
   "flight": [
