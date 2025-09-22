@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 // import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchFlightProducts } from "../../Redux/AdminFlights/action";
+import { API } from "../../baseurl";
 import "./AdminDashboard.Module.css";
 
 
@@ -19,7 +20,7 @@ export const AdminDashboard = () => {
   const getHotel = () => {
     setLoading(true);
     axios
-      .get("http://localhost:8080/flight")
+      .get(`${API}/flight`)
       .then((res) => {
         setFlight(res.data.length);
       })
@@ -28,7 +29,7 @@ export const AdminDashboard = () => {
       });
     //
     axios
-      .get("http://localhost:8080/hotel")
+      .get(`${API}/hotel`)
       .then((res) => {
         setHotel(res.data.length);
       })
@@ -37,7 +38,7 @@ export const AdminDashboard = () => {
       });
     //
     axios
-      .get("http://localhost:8080/users")
+      .get(`${API}/users`)
       .then((res) => {
         setUsers(res.data.length);
       })
@@ -46,7 +47,7 @@ export const AdminDashboard = () => {
       });
 
       axios
-      .get("http://localhost:8080/giftcards")
+      .get(`${API}/giftcards`)
       .then((res) => {
         setGiftCard(res.data.length);
       })
@@ -55,7 +56,7 @@ export const AdminDashboard = () => {
       });
     
       axios
-      .get("http://localhost:8080/Things_todo")
+      .get(`${API}/Things_todo`)
       .then((res) => {
         setThings(res.data.length);
       })

@@ -13,6 +13,7 @@ import { Register } from "./Register";
 import StayData from "./Stay/StayData";
 import CheckoutPage from "./CheckoutPage";
 import FlightData from "./Flights/FlightData";
+import Cart from './Cart/Cart';
 
 export const AllRoutes = () => {
     return (
@@ -29,6 +30,7 @@ export const AllRoutes = () => {
             <Route path="/ThingsToDo" element={<Destination/>}/>
             <Route path="/stay" element={<StayData />} />
             <Route path="/flight" element={<FlightData />} />
+            <Route path="/cart" element={<Cart />} />
             
             <Route path="/checkout" element={<CheckoutPage/>} ></Route>
           </Routes>

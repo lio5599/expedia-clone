@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { DeleteHotel, fetchingHotels } from "../../Redux/StayReducer/action";
 import "./StayData.css";
 import PriceFilter from "./PriceFilter";
 import Sidebar from "./Sidebar";
 import Pagination from "./Pagination";
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/Cart/action';
 
 const StayData = () => {
   const dispatch = useDispatch();
@@ -61,6 +63,12 @@ console.log(data)
         <div className="stay-card" key={hotel.id}>
           <img src={hotel.image} alt="hotel" />
 
+            <div style={{marginTop:12}}>
+              <button onClick={() => {
+                dispatch(addToCart(hotel));
+                alert('Added hotel to cart');
+              }}>Add to Cart</button>
+            </div>
           <div className="stay-info">
             <div className="stay-header">
               <h3 className="stay-name">{hotel.name}</h3>
