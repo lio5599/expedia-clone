@@ -66,7 +66,6 @@ export const AdminGiftcards = () => {
     <>
       <ToastContainer />
       <div className="adminProductMain">
-        {/* Left sidebar */}
         <div className="adminSideBr">
           <h1><Link to={"/admin"}>Home</Link></h1>
           <h1><Link to={"/admin/adminflight"}>Add Flight</Link></h1>
@@ -77,7 +76,6 @@ export const AdminGiftcards = () => {
           <h1><Link to={"/"}>Log out</Link></h1>
         </div>
 
-        {/* Main content */}
         <div className="adminProductbox">
           <div className="filterProdcut">
             <input
@@ -101,40 +99,38 @@ export const AdminGiftcards = () => {
 
           {filteredGiftcards.map((gc) => (
             <div
-              key={gc.id}
-              className="adminProductlist"
-              style={{ display: "flex", alignItems: "center", gap: "15px" }}
+                key={gc.id}
+                className="adminProductlist"
+                style={{
+                display: "flex",
+                alignItems: "center"
+                }}
             >
-              {/* Image on the left */}
-              {gc.image && (
-                <img
-                  src={gc.image}
-                  alt={gc.title}
-                  style={{
-                    width: "60px",
-                    height: "60px",
-                    objectFit: "cover",
-                    borderRadius: "6px",
-                  }}
-                />
-              )}
+                {gc.image && (
+                <div style={{ width: "60px" }}>
+                    <img
+                    src={gc.image}
+                    alt={gc.title}
+                    style={{
+                        width: "60px",
+                        height: "60px",
+                        objectFit: "cover",
+                        borderRadius: "6px"
+                    }}
+                    />
+                </div>
+                )}
 
-              {/* Details */}
-              <span>{gc.title}</span>
-              <span>{gc.category}</span>
-              <span>{gc.code}</span>
+                <span style={{ flex: 1, marginLeft: "20px"}}>{gc.title}</span>
+                <span style={{ flex: 1 }}>{gc.category}</span>
+                <span style={{ flex: 1 }}>{gc.code}</span>
 
-              {/* Actions */}
-              <span style={{ marginLeft: "auto" }}>
-                <button onClick={() => handleDeleteGiftcard(gc.id)}>
-                  Delete <i className="fa fa-trash"></i>
-                </button>
-                <button>
-                  Edit <i className="fa fa-pencil"></i>
-                </button>
-              </span>
+                <span style={{ width: "160px", textAlign: "right" }}>
+                <button onClick={() => handleDeleteGiftcard(gc.id)}>Delete</button>
+                <button>Edit</button>
+                </span>
             </div>
-          ))}
+            ))}
         </div>
       </div>
     </>

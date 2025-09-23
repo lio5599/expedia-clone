@@ -106,19 +106,19 @@ export const AdminProducts = () => {
           )}
 
           {filteredFlights.map((ele, i) => (
-            <div key={i} className="adminProductlist">
-              <span>{ele.airline}</span>
-              <span>{ele.from}</span>
-              <span>{ele.to}</span>
-              <span>{ele.price}</span>
-              <span>{ele.number}</span>
-              <span>
-                <button onClick={() => handleDeleteFlights(ele.id)}>
-                  Delete <i className="fa fa-trash"></i>
-                </button>
-                <button>
-                  Edit <i className="fa fa-pencil"></i>
-                </button>
+            <div
+              key={i}
+              className="adminProductlist"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.airline}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.from}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.to}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.price}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.number}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>
+                <button onClick={() => handleDeleteFlights(ele.id)}>Delete</button>
+                <button>Edit</button>
               </span>
             </div>
           ))}

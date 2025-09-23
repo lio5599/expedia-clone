@@ -103,8 +103,13 @@ export const AllHotels = () => {
           )}
 
           {filteredHotels.map((ele, i) => (
-            <div key={i} className="adminProductlist">
-              <span>
+            <div
+              key={i}
+              className="adminProductlist"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+
+              <span style={{ width: "80px" }}>
                 {ele.image && (
                   <img
                     src={ele.image}
@@ -113,22 +118,20 @@ export const AllHotels = () => {
                   />
                 )}
               </span>
-              <span>
+
+              <span style={{ flex: 1, marginLeft: "10px" }}>
                 {ele.name && ele.name.length > 10
                   ? ele.name.substring(0, 10) + "..."
                   : ele.name || "Unnamed"}
               </span>
-              <span>{ele.place}</span>
-              <span>Rs.{ele.taxes}</span>
-              <span>Rs.{ele.price}</span>
-              <span>{ele.number}</span>
-              <span>
-                <button onClick={() => handleDeleteHotel(ele.id)}>
-                  Delete <i className="fa fa-trash"></i>
-                </button>
-                <button>
-                  Edit <i className="fa fa-pencil"></i>
-                </button>
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.place}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>Rs.{ele.taxes}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>Rs.{ele.price}</span>
+              <span style={{ flex: 1, marginLeft: "10px" }}>{ele.number}</span>
+
+              <span style={{ width: "180px", textAlign: "right", marginLeft: "10px" }}>
+                <button onClick={() => handleDeleteHotel(ele.id)}>Delete</button>
+                <button>Edit</button>
               </span>
             </div>
           ))}

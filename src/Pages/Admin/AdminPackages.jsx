@@ -58,7 +58,6 @@ export const AdminPackages = () => {
     <>
       <ToastContainer />
       <div className="adminProductMain">
-        {/* Sidebar */}
         <div className="adminSideBr">
           <h1><Link to={"/admin"}>Home</Link></h1>
           <h1><Link to={"/admin/adminflight"}>Add Flight</Link></h1>
@@ -70,10 +69,8 @@ export const AdminPackages = () => {
           <h1><Link to={"/"}>Log out</Link></h1>
         </div>
 
-        {/* Main Content */}
         <div className="adminProductbox">
           <div className="filterProdcut">
-            {/* 🔎 Search bar */}
             <input
               placeholder="Search Package"
               type="text"
@@ -93,28 +90,31 @@ export const AdminPackages = () => {
           {filteredPackages.length === 0 && !isLoading && <p>No packages found.</p>}
 
           {filteredPackages.map((pkg) => (
-            <div key={pkg.id} className="adminProductlist">
-              <span>
-                <img
-                  src={pkg.image}
-                  alt={pkg.title}
-                  style={{ width: "80px", height: "60px", objectFit: "cover" }}
-                />
-              </span>
-              <span>{pkg.place}</span>
-              <span>{pkg.title}</span>
-              <span>{pkg.rating} ratings</span>
-              <span>{pkg.adress}</span>
-              <span>{pkg.price}</span>
-              <span>
-                <button onClick={() => handleDeletePackage(pkg.id)}>
-                  Delete <i className="fa fa-trash"></i>
-                </button>
-                <button>
-                  Edit <i className="fa fa-pencil"></i>
-                </button>
-              </span>
-            </div>
+            <div
+                key={pkg.id}
+                className="adminProductlist"
+                style={{
+                    display: "flex",
+                    alignItems: "center"
+                }}
+                >
+                <span style={{ flex: 1 }}>
+                    <img
+                    src={pkg.image}
+                    alt={pkg.title}
+                    style={{ width: "80px", height: "60px", objectFit: "cover" }}
+                    />
+                </span>
+                <span style={{ flex: 1 }}>{pkg.place}</span>
+                <span style={{ flex: 1 }}>{pkg.title}</span>
+                <span style={{ flex: 1 }}>{pkg.rating} ratings</span>
+                <span style={{ flex: 1 }}>{pkg.adress}</span>
+                <span style={{ flex: 1 }}>{pkg.price}</span>
+                <span style={{ flex: 1 }}>
+                    <button onClick={() => handleDeletePackage(pkg.id)}>Delete</button>
+                    <button>Edit</button>
+                </span>
+                </div>
           ))}
         </div>
       </div>

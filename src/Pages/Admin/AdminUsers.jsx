@@ -43,7 +43,6 @@ export const AdminUsers = () => {
     fetchUsers(limit);
   }, [limit]);
 
-  // 🔎 Filter users client-side by searchTerm (case-insensitive)
   const filteredUsers = users.filter((u) =>
     Object.values(u)
       .join(" ") // combine all fields into one string
@@ -55,7 +54,6 @@ export const AdminUsers = () => {
     <>
       <ToastContainer />
       <div className="adminProductMain">
-        {/* Left sidebar */}
         <div className="adminSideBr">
           <h1><Link to="/admin">Home</Link></h1>
           <h1><Link to="/admin/adminflight">Add Flight</Link></h1>
@@ -68,10 +66,8 @@ export const AdminUsers = () => {
           <h1><Link to="/">Log out</Link></h1>
         </div>
 
-        {/* Main content */}
         <div className="adminProductbox">
           <div className="filterProdcut">
-            {/* 🔎 Search bar */}
             <input
               placeholder="Search User"
               type="text"
@@ -92,22 +88,22 @@ export const AdminUsers = () => {
           )}
 
           {filteredUsers.map((u) => (
-            <div key={u.id} className="adminProductlist">
-              <span>{u.user_name || "N/A"}</span>
-              <span>{u.email || "N/A"}</span>
-              <span>{u.number || "N/A"}</span>
-              <span>{u.dob || "N/A"}</span>
-              <span>{u.gender || "N/A"}</span>
-              <span>
-                <button onClick={() => handleDeleteUser(u.id)}>
-                  Delete <i className="fa fa-trash"></i>
-                </button>
-                <button>
-                  Edit <i className="fa fa-pencil"></i>
-                </button>
-              </span>
+            <div
+                key={u.id}
+                className="adminProductlist"
+                style={{ display: "flex", alignItems: "center" }}
+            >
+                <span style={{ flex: 1, marginLeft: "10px" }}>{u.user_name || "N/A"}</span>
+                <span style={{ flex: 1, marginLeft: "10px" }}>{u.email || "N/A"}</span>
+                <span style={{ flex: 1, marginLeft: "10px" }}>{u.number || "N/A"}</span>
+                <span style={{ flex: 1, marginLeft: "10px" }}>{u.dob || "N/A"}</span>
+                <span style={{ flex: 1, marginLeft: "10px" }}>{u.gender || "N/A"}</span>
+                <span style={{ flex: 1, marginLeft: "10px" }}>
+                <button onClick={() => handleDeleteUser(u.id)}>Delete</button>
+                <button>Edit</button>
+                </span>
             </div>
-          ))}
+            ))}
         </div>
       </div>
     </>
