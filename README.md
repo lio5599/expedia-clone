@@ -60,6 +60,17 @@ npm run server
 . Open the website in your browser:
 http://localhost:3000/
 
+. Within the same project directory:
+npm install -g firebase-tools
+
+. Login to firebase:
+firebase login
+
+. Initialize Firebase Hosting:
+firebase init hosting
+
+. Deploy the project:
+firebase deploy --only hosting
 
 <h2>Deployment</h2>
 
