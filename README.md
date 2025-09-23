@@ -2,6 +2,7 @@
 
 <p>This project is a clone of the Expedia website, created by Team of 5 starting with Kumkum (Team Lead), Ashish, Amit, Sagar Balsaraf, and Sarim . The purpose of this project is to showcase our skills and knowledge in HTML, CSS, JavaScript, React, Redux, and Json-Server.<p>
 
+
 <h2>Tech Stack</h2>
 
 - HTML
@@ -11,6 +12,7 @@
 - Redux
 - Json-Server
 - firebase
+
 
 <h2>Dependency</h2>
 
@@ -43,15 +45,32 @@ To run this project locally, follow the steps below:
 . Clone the repository by running the following command:
 git clone https://github.com/kumkumdutta/interesting-stretch-8935.git
 
-In order to start the project
-run "npm install" in the terminal
-after waiting for the modules to download, run "npm install json-server"
+. Navigate to the project directory:
+cd hesitant-river-6235
 
-After running the npm installations
-to start the frontend "npm start"
-to start the server "npm run server"
+. Install the dependencies:
+npm install
 
-<h2>Firebase</h2>
+. Start the server:
+npm start
+
+. Start JSON- Server:
+npm run server
+
+. Open the website in your browser:
+http://localhost:3000/
+
+. Within the same project directory:
+npm install -g firebase-tools
+
+. Login to firebase:
+firebase login
+
+. Initialize Firebase Hosting:
+firebase init hosting
+
+. Deploy the project:
+firebase deploy --only hosting
 
 <h2>Deployment</h2>
 
@@ -59,14 +78,23 @@ This project has been deployed using Vercel at the following URL:
 
 https://interesting-stretch-8935-liart.vercel.app/
 
+
 This is Login and Signup pages:-
 ![login](https://user-images.githubusercontent.com/112754519/231046318-135d34cb-0ae7-46c3-851c-6889441c62de.PNG)
+
+
 
 This is the Stays Page:-
 ![stays](https://user-images.githubusercontent.com/112754519/231046349-d9885d9f-b42d-4d9f-bfc2-0cac0f9a10df.PNG)
 
+
+
 This is the Flight Page:-
 ![Flight](https://user-images.githubusercontent.com/112754519/231046392-fea5d486-9b26-462c-af9a-5727853e6669.PNG)
 
+
+
 This is the Admin Page:-
 ![Admin](https://user-images.githubusercontent.com/112754519/231046415-c8c2f14c-f586-4da0-884a-992bc18b0e12.PNG)
+
+
