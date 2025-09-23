@@ -15,6 +15,10 @@ import CheckoutPage from "./CheckoutPage";
 import FlightData from "./Flights/FlightData";
 import Cart from './Cart/Cart';
 
+import { AdminGiftcards } from "./Admin/AdminGiftcards";
+import { AdminPackages } from "./Admin/AdminPackages";
+import { AdminUsers } from "./Admin/AdminUsers";
+
 export const AllRoutes = () => {
     return (
         <>
@@ -33,6 +37,10 @@ export const AllRoutes = () => {
             <Route path="/cart" element={<Cart />} />
             
             <Route path="/checkout" element={<CheckoutPage/>} ></Route>
+
+            <Route path="/admin/giftcards" element={<AdminGiftcards />} />
+            <Route path="/admin/packages" element={<AdminPackages />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
           </Routes>
         </>
       );
