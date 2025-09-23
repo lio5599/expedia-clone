@@ -1,22 +1,21 @@
 import { Box, Image, Flex, Button } from "@chakra-ui/react";
-import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/Cart/action';
 
 export default function FlightCard({ data }) {
   const { id, airline, from, to, departure, arrival, price, totalTime } = data;
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    axios.post(`http://localhost:8000/flightcart`, data);
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err))
-
+    dispatch(addToCart(data));
     toast({
-      title: "Flight Add to Cart",
-      description: "Please Proceed to Payment",
+      title: "Flight added to cart",
+      description: "Please proceed to checkout",
       status: "success",
-      duration: 9000,
+      duration: 4000,
       isClosable: true,
     });
   };

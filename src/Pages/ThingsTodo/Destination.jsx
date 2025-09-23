@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API } from '../../baseurl';
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -18,11 +19,11 @@ export const Destination = () => {
   
   
   useEffect(()=>{
-    axios.get(`https://happy-sunglasses-eel.cyclic.app/Things_todo?place=${place}`).then((response) => {
+    axios.get(`${API}/Things_todo?place=${place}`).then((response) => {
         setPlaces(response.data)
      console.log(response.data)
     });
-  },[])
+  },[place])
  
  
   return (

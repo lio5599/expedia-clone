@@ -1,15 +1,18 @@
 import {
   Badge,
-  
   Box,
-  
   Image,
-  
+  Button,
+  useToast,
 } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/Cart/action';
 
 
 
 export default function DestinationCard({image,title,price,rating,place}){
+  const dispatch = useDispatch();
+  const toast = useToast();
   const property = {
     imageUrl: 'https://bit.ly/2Z4KKcF',
     imageAlt: 'Rear view of modern home with pool',
@@ -64,6 +67,12 @@ export default function DestinationCard({image,title,price,rating,place}){
           <Box as='span' ml='2' color='gray.600' fontSize='sm'>
             {rating} reviews
           </Box>
+        </Box>
+        <Box mt={3}>
+          <Button colorScheme='teal' onClick={() => {
+            dispatch(addToCart({ title, price, image, place }));
+            toast({ title: 'Added to cart', status: 'success', duration: 3000, isClosable: true });
+          }}>Add to Cart</Button>
         </Box>
       </Box>
     </Box>

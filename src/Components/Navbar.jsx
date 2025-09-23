@@ -31,90 +31,84 @@ import {
   import {MdOutlineFlight} from 'react-icons/md'
   import {AiFillCar} from 'react-icons/ai'
   import {Link as RouterLink} from 'react-router-dom'
+import {FiShoppingCart} from 'react-icons/fi'
+import { useSelector } from 'react-redux'
   
   export default function Navbar() {
     const { isOpen, onToggle } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
     const myColor = useColorModeValue('light','dark')
   
+    const cartCount = useSelector(state => state.CartReducer?.data?.length || 0)
+  
     return (
-    
-     <Box>
+      <Box>
         <Flex
           bg={useColorModeValue('white', 'gray.800')}
           color={useColorModeValue('gray.600', 'white')}
           minH={'60px'}
           justifyContent={'space-between'}
-          py={{ base: 2, }}
+          py={{ base: 2 }}
           px={{ base: 4 }}
           pr={{sm:'80px'}}
           borderBottom={1}
           borderStyle={'solid'}
           borderColor={useColorModeValue('gray.200', 'gray.900')}
           align={'center'}>
-          <Flex
-            flex={{ base: 1, md: 'auto' }}
-            ml={{ base: -2 }}
-            display={{ base: 'flex', md: 'none' }}>
-          </Flex>
+
+          <Flex flex={{ base: 1, md: 'auto' }} ml={{ base: -2 }} display={{ base: 'flex', md: 'none' }} />
+
           <RouterLink to="/">
-          <Flex flex={{ base: 100 }} justify={{ base: 'space-between', md: 'start' }}>
-            <Image src={myColor=='light'?'https://i.postimg.cc/QxksRNkQ/expedio-Logo.jpg':'https://i.postimg.cc/fRx4D7QH/logo3.png'}  alt='logo' width={{base:'350px',sm:'18%'}} />
-  
-            <Flex display={{ base: 'none', md: 'flex' }} ml={6}>
-              <DesktopNav />
+            <Flex flex={{ base: 100 }} justify={{ base: 'space-between', md: 'start' }}>
+              <Image src={myColor=='light'?'https://i.postimg.cc/QxksRNkQ/expedio-Logo.jpg':'https://i.postimg.cc/fRx4D7QH/logo3.png'}  alt='logo' width={{base:'350px',sm:'18%'}} />
+
+              <Flex display={{ base: 'none', md: 'flex' }} ml={6}>
+                <DesktopNav />
+              </Flex>
             </Flex>
-        
-          </Flex>
           </RouterLink>
-  
-          <Stack
-            flex={{ base: 1, sm: 0 }}
-            justify={'flex-end'}
-            direction={'row'}
-            spacing={{base:3,sm:6}}>
 
-            
-            <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'} >
-                <Icon mt={1} mr={1}  as={BsGlobe2} />
-                English
-            </Box> 
-            
-            
-            
-            <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'} >
-                Support
+          <Stack flex={{ base: 1, sm: 0 }} justify={'flex-end'} direction={'row'} spacing={{base:3,sm:6}}>
+            <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'}>
+              <Icon mt={1} mr={1}  as={BsGlobe2} />
+              English
             </Box>
 
-            <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'} >
-                Trip
+            <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'}>
+              Support
             </Box>
 
-            <Box fontWeight={'500'} fontSize={{base:'16px',sm:'23px'}}  display={'flex'} >
-                <Icon mt={0.5} mr={1}   as={IoIosNotifications} />
+            <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'}>
+              Trip
             </Box>
-             <RouterLink to="/login">
-            <Box fontWeight={'500'}  fontSize={{base:'12px',sm:'16px'}}  mr={9} >
-                SignIn
+
+            <Box fontWeight={'500'} fontSize={{base:'16px',sm:'23px'}} display={'flex'}>
+              <Icon mt={0.5} mr={1} as={IoIosNotifications} />
             </Box>
+
+            <RouterLink to="/cart">
+              <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} display={'flex'} alignItems={'center'}>
+                <Icon mt={0.5} mr={1} as={FiShoppingCart} />
+                <Box>{cartCount}</Box>
+              </Box>
             </RouterLink>
+
+            <RouterLink to="/login">
+              <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} mr={9}>
+                SignIn
+              </Box>
+            </RouterLink>
+
             <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
-
-
-            
           </Stack>
         </Flex>
-  
+
         <Collapse in={isOpen} animateOpacity>
           <MobileNav />
         </Collapse>
       </Box>
-    
-      
-   
-      
     );
   }
   
