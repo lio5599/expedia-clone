@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../../baseurl";
-import "./adminProduct.css"; // reuse the same CSS
+import "./adminProduct.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
@@ -12,6 +12,8 @@ export const AdminUsers = () => {
   const [limit, setLimit] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [draft, setDraft] = useState({}); // holds edits while typing
 
   const fetchUsers = async (limitValue = limit) => {
     try {
@@ -30,10 +32,31 @@ export const AdminUsers = () => {
     try {
       await axios.delete(`${API}/users/${id}`);
       toast.success("User removed");
-      fetchUsers(limit); // refresh list
+      fetchUsers(limit);
     } catch (err) {
       console.error(err);
       toast.error("Failed to delete user");
+    }
+  };
+
+  const handleEdit = (user) => {
+    setEditingId(user.id);
+    setDraft(user); // start with existing values
+  };
+
+  const handleChange = (field, value) => {
+    setDraft((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const saveChanges = async () => {
+    try {
+      await axios.patch(`${API}/users/${editingId}`, draft);
+      toast.success("User updated");
+      setEditingId(null);
+      fetchUsers(limit);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to save changes");
     }
   };
 
@@ -45,7 +68,7 @@ export const AdminUsers = () => {
 
   const filteredUsers = users.filter((u) =>
     Object.values(u)
-      .join(" ") // combine all fields into one string
+      .join(" ")
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
@@ -83,27 +106,42 @@ export const AdminUsers = () => {
           <div className="head"><h1>All Users</h1></div>
 
           {isLoading && <h2>Please wait...</h2>}
-          {filteredUsers.length === 0 && !isLoading && (
-            <p>No users found.</p>
-          )}
+          {filteredUsers.length === 0 && !isLoading && <p>No users found.</p>}
 
           {filteredUsers.map((u) => (
             <div
-                key={u.id}
-                className="adminProductlist"
-                style={{ display: "flex", alignItems: "center" }}
+              key={u.id}
+              className="adminProductlist"
+              style={{ display: "flex", alignItems: "center" }}
             >
-                <span style={{ flex: 1, marginLeft: "10px" }}>{u.user_name || "N/A"}</span>
-                <span style={{ flex: 1, marginLeft: "10px" }}>{u.email || "N/A"}</span>
-                <span style={{ flex: 1, marginLeft: "10px" }}>{u.number || "N/A"}</span>
-                <span style={{ flex: 1, marginLeft: "10px" }}>{u.dob || "N/A"}</span>
-                <span style={{ flex: 1, marginLeft: "10px" }}>{u.gender || "N/A"}</span>
-                <span style={{ flex: 1, marginLeft: "10px" }}>
-                <button onClick={() => handleDeleteUser(u.id)}>Delete</button>
-                <button>Edit</button>
+              {["user_name", "email", "number", "dob", "gender"].map((field) => (
+                <span key={field} style={{ flex: 1, marginLeft: "10px" }}>
+                  {editingId === u.id ? (
+                    <input
+                      style={{ width: "90%" }}
+                      value={draft[field] || ""}
+                      onChange={(e) => handleChange(field, e.target.value)}
+                      onBlur={saveChanges}      // auto-save on blur
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && saveChanges()
+                      }
+                    />
+                  ) : (
+                    u[field] || "N/A"
+                  )}
                 </span>
+              ))}
+
+              <span style={{ flex: 1, marginLeft: "10px" }}>
+                <button onClick={() => handleDeleteUser(u.id)}>Delete</button>
+                {editingId === u.id ? (
+                  <button onClick={saveChanges}>Save</button>
+                ) : (
+                  <button onClick={() => handleEdit(u)}>Edit</button>
+                )}
+              </span>
             </div>
-            ))}
+          ))}
         </div>
       </div>
     </>

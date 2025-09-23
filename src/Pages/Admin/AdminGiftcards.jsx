@@ -8,18 +8,19 @@ import { Link } from "react-router-dom";
 import "font-awesome/css/font-awesome.min.css";
 
 export const AdminGiftcards = () => {
-  const [giftcards, setGiftcards] = useState([]);       // full list from API
-  const [filteredGiftcards, setFilteredGiftcards] = useState([]); // list shown after search
+  const [giftcards, setGiftcards] = useState([]);
   const [limit, setLimit] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [editId, setEditId] = useState(null);
+  const [editData, setEditData] = useState({});
 
   const fetchGiftcards = async (limitValue = limit) => {
     try {
       setIsLoading(true);
       const res = await axios.get(`${API}/giftcards?_limit=${limitValue}`);
       setGiftcards(res.data);
-      setFilteredGiftcards(res.data);
     } catch (err) {
       console.error(err);
       toast.error("Failed to fetch giftcards");
@@ -39,28 +40,55 @@ export const AdminGiftcards = () => {
     }
   };
 
-  const handleLoadMore = () => {
-    setLimit((prev) => prev + 5);
-  };
-
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchTerm(value);
-    if (!value.trim()) {
-      setFilteredGiftcards(giftcards);
-      return;
-    }
-    const filtered = giftcards.filter((gc) =>
-      [gc.title, gc.category, gc.code]
-        .filter(Boolean)
-        .some((field) => field.toLowerCase().includes(value))
-    );
-    setFilteredGiftcards(filtered);
-  };
+  const handleLoadMore = () => setLimit((prev) => prev + 5);
 
   useEffect(() => {
     fetchGiftcards(limit);
   }, [limit]);
+
+  const filteredGiftcards = giftcards.filter((gc) =>
+    Object.values(gc).join(" ").toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const startEdit = (gc) => {
+    setEditId(gc.id);
+    setEditData({ ...gc });
+  };
+
+  const cancelEdit = () => {
+    setEditId(null);
+    setEditData({});
+  };
+
+  const saveEdit = async (field, value) => {
+    const updated = { ...editData, [field]: value };
+    setEditData(updated);
+    try {
+      await axios.put(`${API}/giftcards/${editId}`, updated);
+      toast.success(`${field} updated`);
+      fetchGiftcards(limit);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update");
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    saveEdit(name, value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+    }
+  };
 
   return (
     <>
@@ -73,6 +101,7 @@ export const AdminGiftcards = () => {
           <h1><Link to={"/admin/products"}>All Flights</Link></h1>
           <h1><Link to={"/admin/hotels"}>All Hotels</Link></h1>
           <h1><Link to={"/admin/giftcards"}>All Giftcards</Link></h1>
+          <h1><Link to={"/admin/packages"}>All Packages</Link></h1>
           <h1><Link to={"/"}>Log out</Link></h1>
         </div>
 
@@ -82,9 +111,10 @@ export const AdminGiftcards = () => {
               placeholder="Search Giftcard"
               type="text"
               value={searchTerm}
-              onChange={handleSearch}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            {limit > giftcards.length ? null : (
+            <button onClick={() => fetchGiftcards(limit)}>Search</button>
+            {limit > giftcards.length ? "" : (
               <button onClick={handleLoadMore}>Load More</button>
             )}
           </div>
@@ -92,45 +122,78 @@ export const AdminGiftcards = () => {
           <div className="head"><h1>All Giftcards</h1></div>
 
           {isLoading && <h2>Please wait...</h2>}
-
-          {!isLoading && filteredGiftcards.length === 0 && (
-            <p>No giftcards found.</p>
-          )}
+          {filteredGiftcards.length === 0 && !isLoading && <p>No giftcards found.</p>}
 
           {filteredGiftcards.map((gc) => (
-            <div
-                key={gc.id}
-                className="adminProductlist"
-                style={{
-                display: "flex",
-                alignItems: "center"
-                }}
-            >
-                {gc.image && (
-                <div style={{ width: "60px" }}>
-                    <img
-                    src={gc.image}
-                    alt={gc.title}
-                    style={{
-                        width: "60px",
-                        height: "60px",
-                        objectFit: "cover",
-                        borderRadius: "6px"
-                    }}
+            <div key={gc.id} className="adminProductlist">
+              {editId === gc.id ? (
+                <>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="image"
+                      value={editData.image || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Image URL"
                     />
-                </div>
-                )}
-
-                <span style={{ flex: 1, marginLeft: "20px"}}>{gc.title}</span>
-                <span style={{ flex: 1 }}>{gc.category}</span>
-                <span style={{ flex: 1 }}>{gc.code}</span>
-
-                <span style={{ width: "160px", textAlign: "right" }}>
-                <button onClick={() => handleDeleteGiftcard(gc.id)}>Delete</button>
-                <button>Edit</button>
-                </span>
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="title"
+                      value={editData.title || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Title"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="category"
+                      value={editData.category || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Category"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="code"
+                      value={editData.code || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Code"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <button onClick={cancelEdit}>Done</button>
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span style={{ flex: 1 }}>
+                    {gc.image && (
+                      <img
+                        src={gc.image}
+                        alt={gc.title || "Giftcard"}
+                        style={{ width: "80px", height: "60px", objectFit: "cover" }}
+                      />
+                    )}
+                  </span>
+                  <span style={{ flex: 1 }}>{gc.title || "Untitled"}</span>
+                  <span style={{ flex: 1 }}>{gc.category || "N/A"}</span>
+                  <span style={{ flex: 1 }}>{gc.code || "N/A"}</span>
+                  <span style={{ flex: 1 }}>
+                    <button onClick={() => handleDeleteGiftcard(gc.id)}>Delete</button>
+                    <button onClick={() => startEdit(gc)}>Edit</button>
+                  </span>
+                </>
+              )}
             </div>
-            ))}
+          ))}
         </div>
       </div>
     </>

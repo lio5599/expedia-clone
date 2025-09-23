@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../../baseurl";
-import "./adminProduct.css"; // reuse existing adminProduct styles
+import "./adminProduct.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
@@ -13,10 +13,12 @@ export const AdminPackages = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [editId, setEditId] = useState(null);
+  const [editData, setEditData] = useState({});
+
   const fetchPackages = async (limitValue = limit) => {
     try {
       setIsLoading(true);
-      // assuming your API endpoint is /Things_todo
       const res = await axios.get(`${API}/Things_todo?_limit=${limitValue}`);
       setPackages(res.data);
     } catch (err) {
@@ -38,21 +40,55 @@ export const AdminPackages = () => {
     }
   };
 
-  const handleLoadMore = () => {
-    setLimit((prev) => prev + 5);
-  };
+  const handleLoadMore = () => setLimit((prev) => prev + 5);
 
   useEffect(() => {
     fetchPackages(limit);
   }, [limit]);
 
-  // 🔎 Filter packages client-side by searchTerm (case-insensitive)
   const filteredPackages = packages.filter((pkg) =>
-    Object.values(pkg)
-      .join(" ") // combine all fields into one string
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+    Object.values(pkg).join(" ").toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const startEdit = (pkg) => {
+    setEditId(pkg.id);
+    setEditData({ ...pkg });
+  };
+
+  const cancelEdit = () => {
+    setEditId(null);
+    setEditData({});
+  };
+
+  const saveEdit = async (field, value) => {
+    const updated = { ...editData, [field]: value };
+    setEditData(updated);
+    try {
+      await axios.put(`${API}/Things_todo/${editId}`, updated);
+      toast.success(`${field} updated`);
+      fetchPackages(limit);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update");
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    saveEdit(name, value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+    }
+  };
 
   return (
     <>
@@ -86,35 +122,99 @@ export const AdminPackages = () => {
           <div className="head"><h1>All Packages</h1></div>
 
           {isLoading && <h2>Please wait...</h2>}
-
           {filteredPackages.length === 0 && !isLoading && <p>No packages found.</p>}
 
           {filteredPackages.map((pkg) => (
-            <div
-                key={pkg.id}
-                className="adminProductlist"
-                style={{
-                    display: "flex",
-                    alignItems: "center"
-                }}
-                >
-                <span style={{ flex: 1 }}>
-                    <img
-                    src={pkg.image}
-                    alt={pkg.title}
-                    style={{ width: "80px", height: "60px", objectFit: "cover" }}
+            <div key={pkg.id} className="adminProductlist">
+              {editId === pkg.id ? (
+                <>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="image"
+                      value={editData.image || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Image URL"
                     />
-                </span>
-                <span style={{ flex: 1 }}>{pkg.place}</span>
-                <span style={{ flex: 1 }}>{pkg.title}</span>
-                <span style={{ flex: 1 }}>{pkg.rating} ratings</span>
-                <span style={{ flex: 1 }}>{pkg.adress}</span>
-                <span style={{ flex: 1 }}>{pkg.price}</span>
-                <span style={{ flex: 1 }}>
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="place"
+                      value={editData.place || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Place"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="title"
+                      value={editData.title || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Title"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="rating"
+                      value={editData.rating || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Rating"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="adress"
+                      value={editData.adress || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Address"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <input
+                      name="price"
+                      value={editData.price || ""}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Price"
+                    />
+                  </span>
+                  <span style={{ flex: 1 }}>
+                    <button onClick={cancelEdit}>Done</button>
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span style={{ flex: 1 }}>
+                    {pkg.image && (
+                      <img
+                        src={pkg.image}
+                        alt={pkg.title || "Package"}
+                        style={{ width: "80px", height: "60px", objectFit: "cover" }}
+                      />
+                    )}
+                  </span>
+                  <span style={{ flex: 1 }}>{pkg.place || "N/A"}</span>
+                  <span style={{ flex: 1 }}>{pkg.title || "Untitled"}</span>
+                  <span style={{ flex: 1 }}>{pkg.rating ? `ratings: ${pkg.rating}` : "No rating"}</span>
+                  <span style={{ flex: 1 }}>{pkg.adress || "N/A"}</span>
+                  <span style={{ flex: 1 }}>Rs.{pkg.price ?? "0"}</span>
+                  <span style={{ flex: 1 }}>
                     <button onClick={() => handleDeletePackage(pkg.id)}>Delete</button>
-                    <button>Edit</button>
-                </span>
-                </div>
+                    <button onClick={() => startEdit(pkg)}>Edit</button>
+                  </span>
+                </>
+              )}
+            </div>
           ))}
         </div>
       </div>
