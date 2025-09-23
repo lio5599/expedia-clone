@@ -11,18 +11,19 @@ import { DeleteHotel, fetchingHotels } from "../../Redux/AdminHotel/action";
 export const AllHotels = () => {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(5);
-  const { isLoading, data } = useSelector((store) => {
-    return {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredHotels, setFilteredHotels] = useState([]);
+  const { isLoading, data } = useSelector(
+    (store) => ({
       isLoading: store.HotelReducer.isLoading,
       data: store.HotelReducer.data,
-    };
-  }, shallowEqual);
-  // console.log(data);
+    }),
+    shallowEqual
+  );
 
   const handleDeleteHotel = (deleteId) => {
     dispatch(DeleteHotel(deleteId));
-    // alert(deleteId);
-    toast.success("Flight Removed", {
+    toast.success("Hotel Removed", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -40,16 +41,37 @@ export const AllHotels = () => {
     }
   };
 
-  console.log(limit);
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+
+    if (!value.trim()) {
+      setFilteredHotels(data);
+      return;
+    }
+
+    const filtered = data.filter((hotel) =>
+      [hotel.name, hotel.place, hotel.taxes, hotel.price, hotel.number]
+        .filter(Boolean)
+        .some((field) => field.toString().toLowerCase().includes(value))
+    );
+    setFilteredHotels(filtered);
+  };
 
   useEffect(() => {
     dispatch(fetchingHotels(limit));
-  }, [limit]);
+  }, [limit, dispatch]);
+
+  // Update filtered list whenever data changes
+  useEffect(() => {
+    setFilteredHotels(data);
+  }, [data]);
 
   return (
     <>
       <ToastContainer />
       <div className="adminProductMain">
+        {/* Sidebar */}
         <div className="adminSideBr">
           <h1><Link to={"/admin"}>Home</Link></h1>
           <h1><Link to={"/admin/adminflight"}>Add Flight</Link></h1>
@@ -57,32 +79,44 @@ export const AllHotels = () => {
           <h1><Link to={"/admin/products"}>All Flights</Link></h1>
           <h1><Link to={"/admin/hotels"}>All Hotels</Link></h1>
           <h1><Link to={"/"}>Log out</Link></h1>
-
         </div>
+
+        {/* Main content */}
         <div className="adminProductbox">
           <div className="filterProdcut">
-            <input placeholder="Search Flight" type="text" />
-            <button>Search</button>
-            {limit > data.length ? (
-              ""
-            ) : (
+            <input
+              placeholder="Search Hotel"
+              type="text"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            {limit > data.length ? null : (
               <button onClick={handleLoadMore}>Load More</button>
             )}
           </div>
+
           <div className="head"><h1>All Hotels</h1></div>
 
-          {/*  */}
-          {isLoading ? <h1>Please wait...</h1> : ""}
-          {data.map((ele, i) => (
+          {isLoading && <h1>Please wait...</h1>}
+          {!isLoading && filteredHotels.length === 0 && (
+            <p>No hotels found.</p>
+          )}
+
+          {filteredHotels.map((ele, i) => (
             <div key={i} className="adminProductlist">
               <span>
-                <img src={ele.image} alt="" />
+                {ele.image && (
+                  <img
+                    src={ele.image}
+                    alt={ele.name || "Hotel"}
+                    style={{ width: "80px", height: "60px", objectFit: "cover" }}
+                  />
+                )}
               </span>
               <span>
-                {/* {ele.name == "" ? "Default" : ""} */}
-                {ele.name.length > 10
-                  ? (ele.name = ele.name.substring(0, 10) + "...")
-                  : ele.name}
+                {ele.name && ele.name.length > 10
+                  ? ele.name.substring(0, 10) + "..."
+                  : ele.name || "Unnamed"}
               </span>
               <span>{ele.place}</span>
               <span>Rs.{ele.taxes}</span>
@@ -98,7 +132,6 @@ export const AllHotels = () => {
               </span>
             </div>
           ))}
-          {/*  */}
         </div>
       </div>
     </>

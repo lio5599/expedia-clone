@@ -13,12 +13,15 @@ import {
 export const AdminProducts = () => {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(5);
-  const { isLoading, data } = useSelector((store) => {
-    return {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredFlights, setFilteredFlights] = useState([]);
+  const { isLoading, data } = useSelector(
+    (store) => ({
       isLoading: store.FlightReducer.isLoading,
       data: store.FlightReducer.data,
-    };
-  }, shallowEqual);
+    }),
+    shallowEqual
+  );
 
   const handleDeleteFlights = (deleteId) => {
     dispatch(DeleteFlightProducts(deleteId));
@@ -40,15 +43,37 @@ export const AdminProducts = () => {
     }
   };
 
-  //   console.log(limit);
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+
+    if (!value.trim()) {
+      setFilteredFlights(data);
+      return;
+    }
+
+    const filtered = data.filter((flight) =>
+      [flight.airline, flight.from, flight.to, flight.price, flight.number]
+        .filter(Boolean)
+        .some((field) => field.toString().toLowerCase().includes(value))
+    );
+    setFilteredFlights(filtered);
+  };
+
   useEffect(() => {
     dispatch(fetchFlightProducts(limit));
-  }, [limit]);
+  }, [limit, dispatch]);
+
+  // Update filtered list when API data changes
+  useEffect(() => {
+    setFilteredFlights(data);
+  }, [data]);
 
   return (
     <>
       <ToastContainer />
       <div className="adminProductMain">
+        {/* Left sidebar */}
         <div className="adminSideBr">
           <h1><Link to={"/admin"}>Home</Link></h1>
           <h1><Link to={"/admin/adminflight"}>Add Flight</Link></h1>
@@ -57,20 +82,30 @@ export const AdminProducts = () => {
           <h1><Link to={"/admin/hotels"}>All Hotels</Link></h1>
           <h1><Link to={"/"}>Log out</Link></h1>
         </div>
+
+        {/* Main content */}
         <div className="adminProductbox">
           <div className="filterProdcut">
-            <input placeholder="Search Flight" type="text" />
-            <button>Search</button>
-            {limit > data.length ? (
-              ""
-            ) : (
+            <input
+              placeholder="Search Flight"
+              type="text"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            {limit > data.length ? null : (
               <button onClick={handleLoadMore}>Load More</button>
             )}
           </div>
+
           <div className="head"><h1>All Flights</h1></div>
-          {/*  */}
-          {isLoading ? <h1>Please wait...</h1> : ""}
-          {data.map((ele, i) => (
+
+          {isLoading && <h1>Please wait...</h1>}
+
+          {!isLoading && filteredFlights.length === 0 && (
+            <p>No flights found.</p>
+          )}
+
+          {filteredFlights.map((ele, i) => (
             <div key={i} className="adminProductlist">
               <span>{ele.airline}</span>
               <span>{ele.from}</span>
@@ -87,7 +122,6 @@ export const AdminProducts = () => {
               </span>
             </div>
           ))}
-          {/*  */}
         </div>
       </div>
     </>
