@@ -14,7 +14,7 @@ export default function Cart() {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  // load saved payment details (if any)
+  //load saved payment details if they exist
   useEffect(() => {
     try {
       const savedName = localStorage.getItem('cart_customerName') || '';
@@ -22,11 +22,10 @@ export default function Cart() {
       setCustomerName(savedName);
       setCardNumber(savedCard);
     } catch (e) {
-      // ignore localStorage errors
     }
   }, []);
 
-  // persist payment details when changed
+  //ensure payment details stay when changed
   useEffect(() => {
     try {
       localStorage.setItem('cart_customerName', customerName || '');
