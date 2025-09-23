@@ -7,14 +7,14 @@ import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBlKHCdVfQvMRKQf2B5UqaLfDkwm6T1apo",
-  authDomain: "challo-ghume-fa22c.firebaseapp.com",
-  projectId: "challo-ghume-fa22c",
-  storageBucket: "challo-ghume-fa22c.appspot.com",
-  messagingSenderId: "411994731743",
-  appId: "1:411994731743:web:a02cec85eb6aa66ddbe56a",
+  apiKey: "AIzaSyAe7Flv3GitDEjSdaKzpxcBkpkkj6prbOQ",
+  authDomain: "cpre329.firebaseapp.com",
+  projectId: "cpre329",
+  storageBucket: "cpre329.firebasestorage.app",
+  messagingSenderId: "253455817372",
+  appId: "1:253455817372:web:26b0c1616fe582ce322b59",
   measurementId: "G-5KYMV9KZ2D",
-  databaseURL : "https://my_database.firebaseio.com"
+  databaseURL: "https://my_database.firebaseio.com",
 };
 
 // Initialize Firebase
@@ -23,4 +23,4 @@ const firebase_app = initializeApp(firebaseConfig);
 const auth = getAuth(firebase_app);
 const database = getDatabase(firebase_app);
 
-export default firebase_app
+export default firebase_app;
