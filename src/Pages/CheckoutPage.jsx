@@ -27,7 +27,7 @@ const CheckoutPage = () => {
     try {
       await dispatch(clearCart());
       await dispatch(fetchCart());
-      toast({ title: 'checkout successful', status: 'success', duration: 3000, isClosable: true });
+  toast({ title: 'Your purchase has been made!', status: 'success', duration: 3000, isClosable: true });
       navigate('/');
     } catch (err) {
       toast({ title: 'Checkout failed', description: err.message || 'Unable to complete checkout', status: 'error', duration: 4000, isClosable: true });
